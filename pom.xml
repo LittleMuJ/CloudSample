@@ -23,6 +23,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <!-- 公用jar包可存放至此处，子moudle只需在parent中加入这个父级project即可用 -->
     <dependencies>
         <dependency>
             <groupId>log4j</groupId>
