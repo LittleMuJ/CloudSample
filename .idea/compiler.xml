@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="CloudSample" />
+        <module name="sample-applicationa" />
+        <module name="sample-applicationb" />
+        <module name="sample-eureka" />
+        <module name="sample-feign" />
+        <module name="sample-zuul" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="sample-applicationA" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
