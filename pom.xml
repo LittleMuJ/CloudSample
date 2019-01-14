@@ -11,8 +11,8 @@
     <modules>
         <module>sample-eureka</module>
         <module>sample-zuul</module>
-        <module>sample-applicationa</module>
-        <module>sample-applicationb</module>
+        <module>sample-applicationadmin</module>
+        <module>sample-applicationmerchant</module>
         <module>sample-feign</module>
     </modules>
 
@@ -23,12 +23,55 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <properties>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <log4j-version>1.2.17</log4j-version>
+        <shiro-version>1.3.2</shiro-version>
+    </properties>
     <!-- 公用jar包可存放至此处，子moudle只需在parent中加入这个父级project即可用 -->
     <dependencies>
+        <!--验证码生成工具-->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
+        </dependency>
+
+        <!-- Springboot整合redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>redis.clients</groupId>
+                    <artifactId>jedis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro-version}</version>
+        </dependency>
+
+        <!--log4j-->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
+            <version>${log4j-version}</version>
         </dependency>
 
         <dependency>
@@ -36,5 +79,6 @@
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
         </dependency>
+
     </dependencies>
 </project>

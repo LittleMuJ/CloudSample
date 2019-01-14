@@ -7,15 +7,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="CloudSample" />
-        <module name="sample-applicationa" />
-        <module name="sample-applicationb" />
+        <module name="sample-applicationmerchant" />
         <module name="sample-eureka" />
         <module name="sample-feign" />
         <module name="sample-zuul" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="applicationcommon" target="1.8" />
       <module name="sample-applicationA" target="1.8" />
+      <module name="sample-applicationcommon" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
