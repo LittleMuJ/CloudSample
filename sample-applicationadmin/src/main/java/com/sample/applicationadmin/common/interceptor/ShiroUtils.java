@@ -1,5 +1,6 @@
 package com.sample.applicationadmin.common.interceptor;
 
+import com.sample.applicationadmin.web.sys.entity.SysUserEntity;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -20,13 +21,13 @@ public class ShiroUtils {
         return SecurityUtils.getSubject();
     }
 
-    /*public static SysUserEntity getUserEntity() {
+    public static SysUserEntity getUserEntity() {
         return (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
     }
 
     public static Long getUserId() {
         return getUserEntity().getUserId();
-    }*/
+    }
 
     public static void setSessionAttribute(Object key, Object value) {
         getSession().setAttribute(key, value);

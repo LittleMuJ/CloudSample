@@ -2,9 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <modules>
-        <module>applicationcommon</module>
-    </modules>
 
     <parent>
         <groupId>com.cloud.sample</groupId>
@@ -28,15 +25,13 @@
         <spring-cloud.version>Greenwich.M3</spring-cloud.version>
         <log4j-version>1.2.17</log4j-version>
         <mybatis.paginator.version>1.2.10</mybatis.paginator.version>
+        <velocity-version>1.7</velocity-version>
+        <velocity-tools-version>2.0</velocity-tools-version>
+        <j2cache.version>2.7.2-release</j2cache.version>
+        <hibernate-validator-version>5.4.1.Final</hibernate-validator-version>
     </properties>
 
     <dependencies>
-         <!--引入common-->
-        <dependency>
-            <groupId>com.sample.applicationcommon</groupId>
-            <artifactId>sample-applicationcommon</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
         <!--声明其为一个微服务,与所有的非注册中心的依赖包一致，注册中心的多一段 -server ，很容易辨识-->
         <dependency>
@@ -57,10 +52,25 @@
             <scope>test</scope>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-velocity</artifactId>-->
+            <!--<version>1.4.7.RELEASE</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.0.9.RELEASE</version>
         </dependency>
 
         <!--mybatis-->
@@ -138,6 +148,96 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+
+        <!--common-->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!-- Velocity视图所需jar -->
+        <dependency>
+            <artifactId>velocity</artifactId>
+            <groupId>org.apache.velocity</groupId>
+            <version>${velocity-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>${velocity-tools-version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>dom4j</artifactId>
+                    <groupId>dom4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>oro</artifactId>
+                    <groupId>oro</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>sslext</artifactId>
+                    <groupId>sslext</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>struts-core</artifactId>
+                    <groupId>org.apache.struts</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>struts-taglib</artifactId>
+                    <groupId>org.apache.struts</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>struts-tiles</artifactId>
+                    <groupId>org.apache.struts</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-beanutils</artifactId>
+                    <groupId>commons-beanutils</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-chain</artifactId>
+                    <groupId>commons-chain</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-collections</artifactId>
+                    <groupId>commons-collections</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>net.oschina.j2cache</groupId>
+            <artifactId>j2cache-core</artifactId>
+            <version>${j2cache.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j-version}</version>
         </dependency>
 
     </dependencies>

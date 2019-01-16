@@ -29,8 +29,20 @@ public class ComputeController {
     }
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String loginhtml( Integer a,  Integer b)
+    public String loginhtml( )
     {
         return "login";
+    }
+
+    @RequestMapping(value = "/index.html",method = RequestMethod.GET)
+    public String indexhtml( )
+    {
+        return "index";
+    }
+
+    @RequestMapping(value = "/main.html",method = RequestMethod.GET)
+    public String mainhtml( )
+    {
+        return "sys/main";
     }
 }

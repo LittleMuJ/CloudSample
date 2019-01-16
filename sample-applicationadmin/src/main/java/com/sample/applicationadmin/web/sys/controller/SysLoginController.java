@@ -6,11 +6,19 @@ import com.google.code.kaptcha.Producer;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.sample.applicationadmin.common.interceptor.ShiroUtils;
+import com.sample.applicationadmin.util.Code;
+import com.sample.applicationadmin.util.SysMessage;
+import com.sample.applicationadmin.web.base.BaseController;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -26,7 +34,7 @@ import java.io.IOException;
  *  * @date
  */
 @Controller
-public class SysLoginController {
+public class SysLoginController extends BaseController {
 
     private static Logger logger = LoggerFactory.getLogger(SysLoginController.class);
     @Autowired
@@ -60,5 +68,38 @@ public class SysLoginController {
 
         ServletOutputStream out = response.getOutputStream();
         ImageIO.write(image, "jpg", out);
+    }
+
+    /**
+     * 登录
+     */
+    @ResponseBody
+    @RequestMapping(value = "/sys/login", method = RequestMethod.POST)
+    public Object login(String username,String password,String captcha){
+        String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
+        if(null == kaptcha){
+            return actionResult(Code.BAD_REQUEST,SysMessage.VERIFICATION_CODE_ERROR);
+        }
+        if (!captcha.equalsIgnoreCase(kaptcha)) {
+            return actionResult(Code.BAD_REQUEST,SysMessage.VERIFICATION_CODE_ERROR);
+        }
+
+        try {
+            Subject subject = ShiroUtils.getSubject();
+            //sha256加密
+            password = new Sha256Hash(password).toHex();
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            subject.login(token);
+        } catch (UnknownAccountException e) {
+            return actionResult(Code.LOGIN_FAIL,e.getMessage());
+        } catch (IncorrectCredentialsException e) {
+            return actionResult(Code.LOGIN_FAIL,e.getMessage());
+        } catch (LockedAccountException e) {
+            return actionResult(Code.LOGIN_FAIL,e.getMessage());
+        } catch (AuthenticationException e) {
+            return actionResult(Code.LOGIN_FAIL,"账户验证失败");
+        }
+
+        return actionResult(Code.OK,SysMessage.LOGIN_SUCCESS);
     }
 }

@@ -83,7 +83,7 @@
     </div>
     <div class="signup-footer">
         <div class="pull-left">
-            2018~2018 &copy; <a href="http://fly2you.cn" target="_blank">合肥微同软件工作室</a> 版权所有. 皖ICP备18002832号-1
+            2018~2018 &copy; <a href="http://fly2you.cn" target="_blank">****MM工作室</a> 版权所有. <!--皖ICP备18002832号-1-->
         </div>
     </div>
 </div>
@@ -113,6 +113,7 @@
                 this.src = "captcha.jpg?t=" + $.now();
             },
             login: function (event) {
+
                 if (vm.username == '') {
                     iview.Message.warning("用户名为空");
                     return false;
@@ -126,17 +127,18 @@
                     return false;
                 }
                 var data = "username=" + vm.username + "&password=" + vm.password + "&captcha=" + vm.captcha;
+                console.log(data);
                 $.ajax({
                     type: "POST",
-                    url: "sys/login",
+                    url: "/sys/login",
                     data: data,
                     dataType: "json",
                     success: function (result) {
-                        if (result.code == 0) {//登录成功
+                        if (result.code == 200) {//登录成功
                             parent.location.href = 'index.html';
                         } else {
                             vm.refreshCode();
-                            iview.Message.error(result.msg);
+                            iview.Message.error(result.message);
                         }
                     }
                 });
