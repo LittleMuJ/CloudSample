@@ -3,7 +3,7 @@ package com.sample.applicationadmin.web.sys.entity;
 /**
  * 审批范围dto
  *
- * @author lipengjun
+ * @author murunse
  * @email 939961241@qq.com
  * @date 2017年11月16日 下午10:43:36
  */

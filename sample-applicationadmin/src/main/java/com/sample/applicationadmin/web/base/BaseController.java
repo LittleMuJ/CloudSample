@@ -16,7 +16,7 @@ import java.util.Map;
  * @email:465361524@qq.com
  * @date: 2019-01-14 11:25
  */
-public class BaseController {
+public abstract class BaseController extends HashMap<String, Object>{
     /**
      * 抽取由逗号分隔的主键列表
      * @param ids

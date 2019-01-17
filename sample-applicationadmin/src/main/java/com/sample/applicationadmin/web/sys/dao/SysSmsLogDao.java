@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 发送短信日志Dao
  *
- * @author lipengjun
+ * @author murunse
  * @email 939961241@qq.com
  * @date 2017-12-16 23:38:05
  */

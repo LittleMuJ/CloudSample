@@ -49,7 +49,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 	@Override
 	public List<SysMenuEntity> getUserMenuList(Long userId) {
 		//系统管理员，拥有最高权限
-		if(true){
+		if(userId == 1){
 			return getAllMenuList(null);
 		}
 		

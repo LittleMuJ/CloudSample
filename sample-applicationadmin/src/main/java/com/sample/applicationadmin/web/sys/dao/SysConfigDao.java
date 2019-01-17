@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 系统配置信息
  *
- * @author lipengjun
+ * @author murunse
  * @email 939961241@qq.com
  * @date 2016年12月4日 下午6:46:16
  */

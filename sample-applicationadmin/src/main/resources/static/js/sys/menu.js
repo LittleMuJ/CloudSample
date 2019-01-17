@@ -11,7 +11,7 @@ function initialPage() {
 
 function getGrid() {
     var colunms = TreeGrid.initColumn();
-    var table = new TreeTable(TreeGrid.id, '../sys/menu/queryAll', colunms);
+    var table = new TreeTable(TreeGrid.id, '/sys/menu/queryAll', colunms);
     table.setExpandColumn(2);
     table.setIdField("menuId");
     table.setCodeField("menuId");
@@ -142,7 +142,7 @@ var vm = new Vue({
         getMenu: function (menuId) {
             //加载菜单树
             Ajax.request({
-                url: "../sys/menu/select",
+                url: "/sys/menu/select",
                 async: true,
                 successCallback: function (r) {
                     ztree = $.fn.zTree.init($("#menuTree"), setting, r.menuList);
@@ -177,7 +177,7 @@ var vm = new Vue({
             }
 
             Ajax.request({
-                url: "../sys/menu/info/" + menuId[0].id,
+                url: "/sys/menu/info/" + menuId[0].id,
                 async: true,
                 successCallback: function (r) {
                     vm.showList = false;
@@ -213,7 +213,7 @@ var vm = new Vue({
             });
         },
         saveOrUpdate: function (event) {
-            var url = vm.menu.menuId == null ? "../sys/menu/save" : "../sys/menu/update";
+            var url = vm.menu.menuId == null ? "/sys/menu/save" : "/sys/menu/update";
             Ajax.request({
                 url: url,
                 params: JSON.stringify(vm.menu),

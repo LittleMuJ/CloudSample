@@ -5,6 +5,7 @@
  */
 (function () {
     var TreeTable = function (tableId, url, columns) {
+        console.log(url);
         this.btInstance = null;					//jquery和bootstrapTreeTable绑定的对象
         this.bstableId = tableId;
         this.url = url;
@@ -26,6 +27,7 @@
          */
         init: function () {
             var tableId = this.bstableId;
+
             this.btInstance =
                 $('#' + tableId).bootstrapTreeTable({
                     id: this.id,// 选取记录返回的值
