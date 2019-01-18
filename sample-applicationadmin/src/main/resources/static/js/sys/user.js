@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").Grid({
-        url: '../sys/user/list',
+        url: '/sys/user/list',
         colModel: [
             {label: '用户ID', name: 'userId', index: "user_id", key: true, hidden: true},
             {label: '用户名', name: 'username', width: 75},
@@ -81,7 +81,7 @@ var vm = new Vue({
         getDept: function () {
             //加载部门树
             Ajax.request({
-                url: '../sys/dept/list',
+                url: '/sys/dept/list',
                 async: true,
                 successCallback: function (r) {
                     ztree = $.fn.zTree.init($("#deptTree"), setting, r.list);
@@ -104,7 +104,7 @@ var vm = new Vue({
             vm.title = "修改";
 
             Ajax.request({
-                url: "../sys/user/info/" + userId,
+                url: "/sys/user/info/" + userId,
                 async: true,
                 successCallback: function (r) {
                     vm.user = r.user;
@@ -123,7 +123,7 @@ var vm = new Vue({
 
             confirm('确定要删除选中的记录？', function () {
                 Ajax.request({
-                    url: "../sys/user/delete",
+                    url: "/sys/user/delete",
                     params: JSON.stringify(userIds),
                     contentType: "application/json",
                     type: 'POST',
@@ -136,7 +136,7 @@ var vm = new Vue({
             });
         },
         saveOrUpdate: function (event) {
-            var url = vm.user.userId == null ? "../sys/user/save" : "../sys/user/update";
+            var url = vm.user.userId == null ? "/sys/user/save" : "/sys/user/update";
             Ajax.request({
                 url: url,
                 params: JSON.stringify(vm.user),
@@ -151,7 +151,7 @@ var vm = new Vue({
         },
         getRoleList: function () {
             Ajax.request({
-                url: '../sys/role/select',
+                url: '/sys/role/select',
                 async: true,
                 successCallback: function (r) {
                     vm.roleList = r.list;

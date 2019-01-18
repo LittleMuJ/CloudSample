@@ -34,6 +34,33 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
     @Autowired
     private SysOracleGeneratorDao sysOracleGeneratorDao;
 
+    @Override
+    public List<Map<String, Object>> queryList(Map<String, Object> map) {
+        if ("ORACLE".equals(Constant.USE_DATA)) {
+            List<Map<String, Object>> list = sysOracleGeneratorDao.queryList(map);
+
+            //oracle需转为驼峰命名
+            List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+            for (Map<String, Object> stringObjectMap : list) {
+                Map<String, Object> objectMap = new HashMap<String, Object>();
+                for (String key : stringObjectMap.keySet()) {
+                    String mapKey = StringUtils.lineToHump(key);
+                    objectMap.put(mapKey, stringObjectMap.get(key));
+                }
+                mapList.add(objectMap);
+            }
+            return mapList;
+        }
+        return sysGeneratorDao.queryList(map);
+    }
+
+    @Override
+    public int queryTotal(Map<String, Object> map) {
+        if ("ORACLE".equals(Constant.USE_DATA)) {
+            return sysOracleGeneratorDao.queryTotal(map);
+        }
+        return sysGeneratorDao.queryTotal(map);
+    }
 
     @Override
     public Map<String, String> queryTable(String tableName) {
@@ -86,17 +113,18 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
     }
 
     @Override
-    public byte[] generatorCode(String tableNames) {
+    public byte[] generatorCode(String[] tableNames) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
-        //for (String tableName : tableNames) {
+
+        for (String tableName : tableNames) {
             //查询表信息
-            Map<String, String> table = queryTable(tableNames);
+            Map<String, String> table = queryTable(tableName);
             //查询列信息
-            List<Map<String, String>> columns = queryColumns(tableNames);
+            List<Map<String, String>> columns = queryColumns(tableName);
             //生成代码
             GenUtils.generatorCode(table, columns, zip);
-       // }
+        }
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
     }

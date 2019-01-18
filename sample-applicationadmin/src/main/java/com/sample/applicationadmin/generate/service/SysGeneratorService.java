@@ -10,9 +10,16 @@ import java.util.Map;
  * @date: 2019-01-14 11:50
  */
 public interface SysGeneratorService {
+    List<Map<String, Object>> queryList(Map<String, Object> map);
+
+    int queryTotal(Map<String, Object> map);
+
     Map<String, String> queryTable(String tableName);
 
     List<Map<String, String>> queryColumns(String tableName);
 
-    byte[] generatorCode(String tableNames);
+    /**
+     * 生成代码
+     */
+    byte[] generatorCode(String[] tableNames);
 }

@@ -13,7 +13,11 @@ import java.util.Map;
  */
 @Mapper
 public interface SysGeneratorDao {
-    Map<String,String> queryTable(String tableName);
+    List<Map<String, Object>> queryList(Map<String, Object> map);
+
+    int queryTotal(Map<String, Object> map);
+
+    Map<String, String> queryTable(String tableName);
 
     List<Map<String, String>> queryColumns(String tableName);
 }

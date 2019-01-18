@@ -172,12 +172,16 @@ function handleSubmitValidate(vue, name, callback) {
  * @returns {*}
  */
 function transDate(date, fmt) {
+
     if (date) {
         if (typeof date == 'number') {
+
             return new Date(date).dateFormat(fmt);
         } else {
             try {
-                return new Date(date.replace('-', '/').replace('-', '/')).dateFormat(fmt);
+                console.log(123);
+                return new Date(date).dateFormat(fmt);
+                //return new Date(date.replace('-', '/').replace('-', '/')).dateFormat(fmt);
             } catch (e) {
                 return '-';
             }

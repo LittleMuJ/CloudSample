@@ -7,6 +7,7 @@ $(function () {
             {label: '表备注', name: 'tableComment', index: 'table_comment', width: 100},
             {
                 label: '创建时间', name: 'createTime', index: 'create_time', width: 100, formatter: function (value) {
+
                     return transDate(value);
                 }
             }

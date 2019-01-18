@@ -1,5 +1,6 @@
 package com.sample.applicationadmin.web.sys.controller;
 
+import com.sample.applicationadmin.common.annotation.SysLog;
 import com.sample.applicationadmin.util.*;
 import com.sample.applicationadmin.web.base.BaseController;
 import com.sample.applicationadmin.web.sys.entity.SysMenuEntity;
@@ -54,6 +55,38 @@ public class SysMenuController extends BaseController {
         List<SysMenuEntity> menuList = sysMenuService.queryList(params);
 
         return R.ok().put("list", menuList);
+    }
+
+
+    /**
+     * 修改
+     */
+    @SysLog("修改菜单")
+    @RequestMapping("/update")
+    @RequiresPermissions("sys:menu:update")
+    public R update(@RequestBody SysMenuEntity menu) {
+        //数据校验
+        verifyForm(menu);
+
+        sysMenuService.update(menu);
+
+        return R.ok();
+    }
+    /**
+     * 删除
+     */
+    @SysLog("删除菜单")
+    @RequestMapping("/delete")
+    @RequiresPermissions("sys:menu:delete")
+    public R delete(@RequestBody Long[] menuIds) {
+        for (Long menuId : menuIds) {
+            if (menuId.longValue() <= 30) {
+                return R.error("系统菜单，不能删除");
+            }
+        }
+        sysMenuService.deleteBatch(menuIds);
+
+        return R.ok();
     }
 
     /**

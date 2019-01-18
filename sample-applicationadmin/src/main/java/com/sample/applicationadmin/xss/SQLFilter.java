@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * SQL过滤
  *
- * @author lipengjun
+ * @author murunsen
  * @email 939961241@qq.com
  * @date 2017-04-01 16:16
  */

@@ -7,21 +7,21 @@ import com.sample.applicationadmin.web.sys.dao.SysUserDao;
 import com.sample.applicationadmin.web.sys.entity.SysMenuEntity;
 import com.sample.applicationadmin.web.sys.entity.SysUserEntity;
 import com.sample.applicationadmin.web.sys.service.SysUserService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @description:
@@ -39,7 +39,25 @@ public class MyShiroRealm extends AuthorizingRealm {
     private SysMenuDao sysMenuDao;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        SysUserEntity user = (SysUserEntity) principals.getPrimaryPrincipal();
+        Long userId = user.getUserId();
+
+        List<String> permsList = (List<String>) J2CacheUtils.get(Constant.PERMS_LIST + userId);
+
+        //用户权限列表
+        Set<String> permsSet = new HashSet<String>();
+        if (permsList != null && permsList.size() != 0) {
+            for (String perms : permsList) {
+                if (StringUtils.isBlank(perms)) {
+                    continue;
+                }
+                permsSet.addAll(Arrays.asList(perms.trim().split(",")));
+            }
+        }
+
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.setStringPermissions(permsSet);
+        return info;
     }
 
     /**

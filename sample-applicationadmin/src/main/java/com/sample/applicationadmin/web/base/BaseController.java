@@ -2,13 +2,14 @@ package com.sample.applicationadmin.web.base;
 
 import com.sample.applicationadmin.common.interceptor.ShiroUtils;
 import com.sample.applicationadmin.util.Code;
+import com.sample.applicationadmin.util.RRException;
 import com.sample.applicationadmin.web.sys.entity.SysUserEntity;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.*;
 
 /**
  * @description:
@@ -92,5 +93,47 @@ public abstract class BaseController extends HashMap<String, Object>{
 
     protected Long getDeptId() {
         return getUser().getDeptId();
+    }
+
+
+    /**
+     * 校验
+     * @param str
+     * @param message
+     */
+    public static void isBlank(String str, String message) {
+        if (org.apache.commons.lang.StringUtils.isBlank(str)) {
+            throw new RRException(message);
+        }
+    }
+
+    public static void isNull(Object object, String message) {
+        if (object == null) {
+            throw new RRException(message);
+        }
+    }
+
+
+
+    private static Validator validator;
+
+    static {
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
+
+    /**
+     * 校验对象
+     *
+     * @param object 待校验对象
+     * @param groups 待校验的组
+     * @throws RRException 校验不通过，则报RRException异常
+     */
+    public static void validateEntity(Object object, Class<?>... groups)
+            throws RRException {
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
+        if (!constraintViolations.isEmpty()) {
+            ConstraintViolation<Object> constraint = (ConstraintViolation<Object>) constraintViolations.iterator().next();
+            throw new RRException(constraint.getMessage());
+        }
     }
 }

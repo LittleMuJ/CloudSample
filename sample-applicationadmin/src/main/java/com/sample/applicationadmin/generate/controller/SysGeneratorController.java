@@ -3,16 +3,24 @@ package com.sample.applicationadmin.generate.controller;
 import com.alibaba.fastjson.JSON;
 import com.sample.applicationadmin.generate.service.SysGeneratorService;
 import com.sample.applicationadmin.util.DateUtils;
+import com.sample.applicationadmin.util.PageUtils;
+import com.sample.applicationadmin.util.Query;
+import com.sample.applicationadmin.util.R;
 import com.sample.applicationadmin.web.base.BaseController;
 import org.apache.commons.io.IOUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -27,12 +35,30 @@ public class SysGeneratorController extends BaseController {
     @Autowired
     private SysGeneratorService sysGeneratorService;
 
+
+    /**
+     * 列表
+     */
+    @ResponseBody
+    @RequestMapping("/list")
+    @RequiresPermissions("sys:generator:list")
+    public R list(@RequestParam Map<String, Object> params) {
+        //查询列表数据
+        Query query = new Query(params);
+        List<Map<String, Object>> list = sysGeneratorService.queryList(query);
+        int total = sysGeneratorService.queryTotal(query);
+
+        PageUtils pageUtil = new PageUtils(list, total, query.getLimit(), query.getPage());
+
+        return R.ok().put("page", pageUtil);
+    }
+
     @RequestMapping("/code")
     public  void code(String tables, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String[] tableNames = new String[]{};
-        //tableNames = JSON.parseArray(tables).toArray(tableNames);
+        tableNames = JSON.parseArray(tables).toArray(tableNames);
 
-        byte[] data = sysGeneratorService.generatorCode(tables);
+        byte[] data = sysGeneratorService.generatorCode(tableNames);
 
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"AutoCode"

@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * XSS过滤
  *
- * @author lipengjun
+ * @author murunsen
  * @email 939961241@qq.com
  * @date 2017-04-01 10:20
  */
